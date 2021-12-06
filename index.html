@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<meta name="viewport" content="initial-scale=1, width=device-width">
+<title>SelicHoje!</title>
+
+<style>
+*{margin:0;padding:0}
+html{height:auto;}
+
+html,body {min-height: 100%;}
+
+body{background:#f7f7f7;font:62.5% Verdana;text-align:center}
+a{color:#3398CB}
+
+#conteudo ul, #conteudo ol { margin-left: 17px; }
+#conteudo ul li, #conteudo ol li { margin-left: 15px; margin-top: 10px; }
+
+ul.menu{list-style-type: none; margin-left: initial; text-align: left;}
+ul.menu > li{border-bottom: 1px solid #eee; margin-top: initial; padding: 13px 0 8px 0;}
+#conteudo ul.menu > li { margin-left: initial; }
+ul.menu.hiddenable { display: none; }
+ul#more-button { background: #54bbf1; border-radius: 7px; font-weight: bold; margin-bottom: 50px !important; padding: 15px 0px; text-align: center; }
+ul#more-button a { color: #fff; }
+
+ul#more-button #more-text, ul#more-button #less-text { display: none; }
+body:not(.show-content) ul#more-button #more-text { display:block; }
+body.show-content ul#more-button #less-text { display:block; }
+
+body.mobile .more-content { display: none; }
+body.mobile.show-content .more-content { display: block; }
+
+.highlight{color: #000; display: inline-block;padding: 1px 5px}
+.highlight.dolar{background: #F58A8A}
+.highlight.real{background: #A0D229}
+
+#topo, #conteudo { font-size: 1.2em; margin: 2% 10px 30px 10px; }
+
+#conteudo .google-auto-placed {text-align: left !important;}
+
+#topo p { margin-top: 30px; text-align: left; }
+#topo p:first-child {margin-top: 0;}
+#topo a {text-decoration: none;}
+
+
+#breadcrumb > ol {list-style-type: none; margin-left: 0}
+#dropdown-content > ul {list-style-type: none; margin-top: 8px;}
+#dropdown-content > ul > li.selected > a { color: #000; }
+#dropdown-content > ul > li.header > span { font-weight: bold; text-transform: uppercase; }
+#dropdown-content > ul > li.spacer { border-bottom: 0; padding-top: 0; }
+#breadcrumb > ol > li > a, #breadcrumb > ol > li > span.selected-page {display: none;}
+#breadcrumb ul.menu:last-child li:first-child {display: none;}
+
+#breadcrumb .arrow {fill: #353535; margin-left: 3px; position: relative; top: 3px;}
+
+
+
+@media(min-width: 641px) {
+  body.desktop #breadcrumb {}
+  body.desktop #breadcrumb > ol {margin-top: -4px}
+  body.desktop #breadcrumb > ol > li {display: inline-block; position: relative}
+  body.desktop #breadcrumb > ol > li:after {color: #989898; content: ">"; margin-left: 5px; display: inline-block; position: relative}
+  body.desktop #breadcrumb > ol > li:last-child:after {display: none;}
+  body.desktop #breadcrumb > ol > li > a, body.desktop #breadcrumb > ol > li > span.selected-page {color: #3398CB; display: inline-block; text-decoration: underline;}
+  body.desktop #breadcrumb > ol > li > span.selected-page {text-decoration: none;}
+  body.desktop #breadcrumb > ol > li > a:hover {text-decoration: underline;}
+  body.desktop #breadcrumb > ol > li:first-child > a {font-size: 15px;}
+
+  body.desktop #breadcrumb ul.menu > li {border-bottom: 0; display: block; margin-right: initial; padding: initial;}
+  body.desktop #breadcrumb ul.menu:last-child li:first-child, #breadcrumb ul.menu:nth-child(2n) li:first-child {display: block;}
+
+  body.desktop #dropdown-content.ready {display: none;}
+
+  body.desktop #breadcrumb > ol > li > #dropdown-content {
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
+    background-color: #f9f9f9;
+    
+    left: -133px;
+    
+    padding: 10px 3px;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 1;
+  }
+
+  body.desktop #breadcrumb > ol > li:hover > #dropdown-content { display: block; }
+
+  body.desktop #dropdown-content > ul {display:inline-block; margin-top: initial; vertical-align:top;}
+  body.desktop #dropdown-content > ul > li {}
+  body.desktop #dropdown-content > ul > li.header > span {}
+  body.desktop #dropdown-content > ul > li.spacer { padding-top: 22px; }
+  body.desktop #dropdown-content > ul > li:first-child {margin-top: 4px}
+  body.desktop #dropdown-content > ul > li:last-child {margin-bottom: 4px}
+
+  body.desktop #breadcrumb > ol > li > #dropdown-content > ul > li > a, body.desktop #breadcrumb > ol > li > #dropdown-content > ul > li.header > span { color: #000; margin-right: 18px; padding-left: 15px; text-decoration: none; }
+  body.desktop #breadcrumb > ol > li > #dropdown-content > ul > li > a { color: #3398CB; text-decoration: underline; }
+  body.desktop #breadcrumb > ol > li > #dropdown-content > ul > li > a:hover { text-decoration: underline; }
+
+  body.desktop #dropdown-content > ul > li.selected > a { color: #000 !important; text-decoration: none !important; } 
+
+  body.desktop ul#more-button { display: none; }
+}
+
+
+.install{display:none;}
+.install a{text-decoration: none;}
+.is{display: block !important;}
+.has_extension{display:none !important;}
+
+.icon { background: url(/img/sprites.png) no-repeat; display: inline-block; }
+.icon.flag { background-position: -30px -5px; height: 17px; width: 20px; }
+.text { position: relative; top: -2px; }
+.icon.chrome { background-position: -63px -8px; height: 17px; width: 17px; }
+.icon.whatsapp { background-position: -33px -66px; height: 18px; padding-right: 3px; width: 16px; }
+.icon.telegram { background-position: -7px -63px; height: 21px; padding-right: 3px; width: 16px; }
+.icon.star { width: 27px; height: 26px; background-position: -102px -5px; background-size: 133px; margin-right: 4px; }
+.icon.star.full { background-position: -102px -39px; }
+
+#whatsapp-share-button, #telegram-share-button, #newsletter-top{display: none;}
+body.mobile #whatsapp-share-button, body.mobile #telegram-share-button, body.mobile #newsletter-top{display:block;}
+#newsletter-top{padding-left: 23px;}
+
+@media(min-width: 641px) { /* tablet */
+  body.mobile #whatsapp-share-button, body.mobile #telegram-share-button{display:none;}
+}
+
+#moeda { margin-top: 5%; }
+#moeda > ._adr_abp_iframe { display: none !important; }
+
+  h1 {background:transparent url('./selic.png') no-repeat center center; background-size: 122px; height:122px; margin-right:auto; text-indent:-9999px;}
+  
+  #cotacao {color:#f7f30e;font-size:2em;letter-spacing:.05em;word-spacing:-.3em;
+    margin: .7em .9em .5em .9em;
+    }
+  #cotacao .optional {display: none;}
+  #cotacao .clearfix {clear:both;height:0}
+  .cotMoeda { color: #3d3d3d; font-size:3em; margin: 0 .1em; padding: 0 0.07em 0.03em; float: left; clear: left; font-size:1.4em; }
+  .cotMoeda:first-child { margin-bottom: .3em; margin-top: .3em; }
+  .cotMoeda input {outline:0;}
+  .cotMoeda .symbol { display: inline-block; text-align: left; width: 2.1em; }
+  input#estrangeiro,input#nacional{border:0;color:#909090;font-family:verdana;font-size:1em;margin-left:0.1em;text-align:right;width:2.3em;-webkit-transition: all 0.3s ease-in-out;-moz-transition: all 0.3s ease-in-out;-o-transition: all 0.3s ease-in-out;transition: all 0.3s ease-in-out;}
+  #obs{ color: #c1c1c1; font-size: 17px; margin: 7px 0 0 0.20em; text-align: left; word-spacing: 0; }
+
+
+
+@media(min-width: 641px) {
+  #obs { display: none; }
+}
+
+
+.twitter{display:inline;position:relative;top: 3px;}
+
+#conteudo {text-align:left;}
+#conteudo, #conteudo a {color:#5a5a5a;}
+#conteudo h2 {font-size: 1.3em;}
+#conteudo h2, #conteudo strong {color: #616161;}
+#conteudo h2:first-of-type {margin-top: 20px;}
+#conteudo h2:not(:first-of-type) {margin-top: 50px;}
+#conteudo p {line-height: 21px; margin: 16px 0;}
+#conteudo ul.menu {margin-top:30px;margin-left:0}
+
+table.conversao {border-collapse: collapse; margin-bottom: 10px; margin-top: 16px; width: 100%;}
+
+thead tr td {background: #4CAF50; color: #fff; vertical-align: bottom;}
+table.conversao.australiano thead tr td {background: #3E2782;}
+table.conversao.neo thead tr td, table.conversao.siacoin thead tr td {}
+table.conversao.canadense thead tr td {background: #E20026;}
+table.conversao.euro thead tr td, table.conversao.electroneum thead tr td, table.conversao.dash thead tr td, table.conversao.populous thead tr td, table.conversao.zilliqa thead tr td, table.conversao.digibyte thead tr td, table.conversao.wanchain thead tr td, table.conversao.bitshares thead tr td, table.conversao.status thead tr td, table.conversao.decred thead tr td, table.conversao.lisk thead tr td, table.conversao.omisego thead tr td, table.conversao.nano thead tr td, table.conversao.vechain thead tr td, table.conversao.ontology thead tr td, table.conversao.verge thead tr td, table.conversao.stellar-lumens thead tr td, table.conversao.qtum thead tr td, table.conversao.icon-coin thead tr td, table.conversao.stratis thead tr td, table.conversao.waves thead tr td, table.conversao.steem thead tr td, table.conversao.usd-coin thead tr td, table.conversao.trueusd thead tr td, table.conversao.solana thead tr td {background: #3398CB;}
+table.conversao.libra thead tr td {background: #e0596a;}
+table.conversao.polkadot thead tr td, table.conversao.aeternity thead tr td {background: #d03c70;}
+table.conversao.ouro thead tr td, table.conversao.zcash thead tr td, table.conversao.dogecoin thead tr td, table.conversao.shiba_inu thead tr td {background: #caac66;}
+table.conversao.bitcoin thead tr td, table.conversao.nem thead tr td {background: #fef0db;color: #999;}
+table.conversao.iene thead tr td, table.conversao.mexicano thead tr td, table.conversao.franco-suico thead tr td, table.conversao.neozelandes thead tr td, table.conversao.basic-attention-token thead tr td, table.conversao.yuan thead tr td, table.conversao.rublo thead tr td,table.conversao.novo-sol thead tr td, table.conversao.reddcoin thead tr td, table.conversao.ark thead tr td, table.conversao.won thead tr td {background: #e63331;}
+table.conversao.litecoin thead tr td, table.conversao.ripple thead tr td, table.conversao.salt thead tr td, table.conversao.zrx thead tr td, table.conversao.bytom thead tr td, table.conversao.ethereum thead tr td, table.conversao.iota thead tr td, table.conversao.cardano thead tr td, table.conversao.tron thead tr td, table.conversao.eos thead tr td, table.conversao.bytecoin thead tr td, table.conversao.golem thead tr td, table.conversao.pundi-x thead tr td, table.conversao.tezos thead tr td {background: #A4A4A4;color: #fff;}
+table.conversao.monero thead tr td {background: #f7e8de; color: #969696;}
+table.conversao.argentino thead tr td {background: #5CA8DA;}
+table.conversao.chileno thead tr td {background: #E51212;}
+table.conversao.uruguaio thead tr td {background: #0237AB;}
+table.conversao tbody tr.destaque {background: #fffee1;}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+td {border-bottom: 1px solid #ddd; font-size: 15px; height: auto; max-height: 30px; padding: 10px;}
+
+/* input */
+
+
+  /* celulares */
+  .cotMoeda input {min-width: 3.9em; max-width: 3.9em;}
+  
+
+  @media(min-width: 239px) {
+    .cotMoeda input {min-width: 4.6em; max-width: 4.6em;}
+    
+  }
+
+  @media(min-width: 299px) {
+    .cotMoeda{font-size: 1.8em}
+    .cotMoeda input { min-width: 4.7em; max-width: 4.7em; }
+    
+  }
+
+  @media(min-width: 319px) {
+    .cotMoeda input { min-width: 5.3em; max-width: 5.3em; }
+    
+  }
+
+  @media(min-width: 359px) {
+    .cotMoeda{font-size: 2em}
+    .cotMoeda input { min-width: 5.5em; max-width: 5.5em; }
+    
+  }
+
+
+
+  /* ativado e mobile */
+  body.activated .cotMoeda, .cotMoeda { color: #c8c8c8; }
+  body.activated .cotMoeda, body.activated .cotMoeda input, .cotMoeda, .cotMoeda input { background: #E7F4C9; }
+
+
+
+
+
+/* desktop */
+  @media(min-width: 641px) {
+    .cotMoeda { color: #d8d8d8; }
+    
+    .cotMoeda, input#estrangeiro, input#nacional { background: transparent; }
+  }
+
+
+/* adsense */
+body.hide-google-ads .adsbygoogle.principal, body.hide-google-ads .adsbygoogle.conteudo, body.hide-google-ads .adsbygoogle.rodape {
+  display: none !important;
+}
+
+.adsbygoogle {
+  height: 60px;
+  margin: 0 0 0 25px;
+  width: 168px;
+}
+
+.adsbygoogle.digitais {
+  margin: 20px 0 0 0 !important;
+}
+
+@media(min-width: 239px) {
+  .adsbygoogle {
+    height: 60px;
+    width: 189px;
+  }
+}
+
+@media(min-width: 320px) {
+  .adsbygoogle {
+    height: 250px;
+    margin: 0 0 0 12px;
+    width: 300px;
+  }
+}
+
+@media(min-width: 360px) {
+  .adsbygoogle {
+    margin: 0 0 0 25px;
+  }
+}
+
+@media(min-width: 641px) {
+  .adsbygoogle {
+    margin: 1.5% auto 0 auto !important;
+    height: 60px;
+    width: 468px;
+  }
+
+  #main-banner {
+    margin-top: 1.5%;
+  }
+
+  #main-banner .adsbygoogle {
+    margin-top: 0;
+  }
+}
+
+@media(min-width: 728px) {
+  .adsbygoogle {
+    height: 90px;
+    width: 728px;
+  }
+}
+
+@media(min-width: 1040px) {
+  .adsbygoogle.rodape {
+    height: 250px;
+    width: 970px;
+  }
+}
+
+.adsbygoogle.conteudo {
+  margin: 0 !important;
+}
+
+.adsbygoogle.rodape, #dolarhoje_mobile_bottom, #dolarhoje_desktop_bottom {
+  margin: 5% 0 0 0 !important;
+}
+
+body.desktop .adsbygoogle.digitais {
+  display: none !important;
+}
+
+/* ajustes para ios e celulares */
+@media(min-width: 360px) {
+  #topo, #conteudo {
+    font-size: 1.4em;
+    margin: 2% 25px 30px 25px;
+  }
+
+  ul.menu > li { padding-bottom: 9px; }
+
+  #dolarhoje_desktop_banner:empty, #dolarhoje_desktop_bottom:empty, #dolarhoje_desktop_top:empty, #dolarhoje_mobile_banner:empty, #dolarhoje_mobile_bottom:empty, #dolarhoje_mobile_top:empty, #main-banner:empty {
+    display: none;
+  }
+}
+
+/* ajustes para ipad e desktop */
+@media(min-width: 641px) {
+  #moeda { margin-top: 10%; }
+
+  #cotacao { font-size: 1.2em; margin-top: 4%; }
+  #cotacao .optional{display: inline; }
+  
+  
+    .cotMoeda {float: none; clear: none; font-size:3em;}
+    .cotMoeda input, .cotMoeda input#estrangeiro {min-width: 0; max-width: none}
+    .cotMoeda .symbol {width: auto;}
+    .cotMoeda:first-child { margin: 0 .1em; }
+  
+
+  body.desktop ul.menu > li {border-bottom: 0; display: inline; margin-right: .7em; padding: 0;}
+  body.desktop ul.menu > li:last-child {margin-right: 0;}
+
+  body.desktop #topo {position: absolute; left: 10px; margin: 0; padding-top: 0; top: 10px; width: auto}
+  body.desktop #topo a{text-decoration: underline;}
+  body.desktop #topo .install a{text-decoration:none;}
+  body.desktop #topo p {margin-top: 7px}
+  body.desktop #topo ul { line-height: 22px; }
+
+  body.desktop #conteudo { left: 10px; max-width: 550px; position: absolute; right: 10px; top: 101%; }
+  body.desktop #conteudo ul.menu {}
+  body.desktop #conteudo ul.menu > li { padding-bottom: 10px }
+
+  body.mobile #topo { margin-top: 28%; }
+}
+
+@media(min-width: 780px) {
+  #cotacao { font-size: 1.4em }
+}
+
+@media(min-width: 880px) {
+  #cotacao { font-size: 1.6em }
+}
+
+@media(min-width: 1020px) {
+  #cotacao { font-size: 2em; }
+}
+
+
+#topo ul.menu > li#breadcrumb { border-bottom: 0; }
+
+
+
+
+#chart { margin-top: 20px; }
+
+
+#privacy-warning {
+  background: #fff;
+  border-radius: 1px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 0px;
+  color: #000;
+  display: none;
+  font-size: 13px;
+  left: 20px;
+  letter-spacing: -0.1px;
+  padding: 5px 6px 6px 8px;
+  right: 20px;
+  text-align: left;
+  word-spacing: -1.5px;
+
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#privacy-warning, #privacy-close { vertical-align: middle; }
+#privacy-warning div {}
+#privacy-close {
+  margin: 5px 0 0 0;
+  padding: 6px 10px;
+  width: 100%;
+}
+@media(min-width: 361px) {
+  #privacy-warning {
+    bottom: 10px;
+    margin: 0;
+    flex-direction: row;
+    position: fixed;
+    z-index: 9999;
+  }
+  #privacy-close {
+    margin: 0 0 0 3px;
+    width: auto;
+  }
+}
+
+</style>
+<body class="desktop">
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <h1>SelicHoje</h1>
+  <div id="cotacao"><span class="cotMoeda estrangeira"><span class="symbol">A taxa selic está em<div id="taxa"></div> hoje</span></div>
+  </div>
+
+  <script src="selic.js"></script>
+  
+</div>
