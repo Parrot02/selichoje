@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express()
-const port = 80
 const puppeteer = require('puppeteer');
 const fs = require('fs'); 
 
@@ -38,6 +37,6 @@ app.get('/', (req,res) => {
     res.sendFile(`${__dirname}/index.html`)
 })
 
-app.listen(port, () => {
-    console.log(`Ouvindo na porta ${port}!`)
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`Ouvindo!`)
 })
