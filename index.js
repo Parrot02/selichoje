@@ -6,7 +6,7 @@ const fs = require('fs');
 app.use(express.static(__dirname+'/public'));
 
 const obterSelic = async() => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ignoreDefaultArgs: ['--disable-extensions']});
   const page = await browser.newPage();
   await page.goto('https://br.investing.com/central-banks/central-bank-of-brazil'); // Acessa o site do Investing.com 
   await page.waitForSelector('.noPad') // Faz o get da taxa 
