@@ -1,10 +1,12 @@
 function getSelic(){
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost:3000/selic", true)
+    xhr.open("GET", "https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados?formato=json", true)
     xhr.onreadystatechange = function(){
         if(xhr.readyState == XMLHttpRequest.DONE){
-            chrome.browserAction.setBadgeText({text: `${xhr.responseText}`})
-            chrome.browserAction.setTitle({title: `A Selic hoje está em ${xhr.responseText}`})
+            var jason = JSON.parse(xhr.responseText)
+            var selic = jason[jason.length-1].valor 
+            chrome.browserAction.setBadgeText({text: `${selic}`})
+            chrome.browserAction.setTitle({title: `A Selic hoje está em ${selic}pp`})
         } else {
             chrome.browserAction.setBadgeText({text: `N/A`})
         }
@@ -19,6 +21,6 @@ setInterval(getSelic, 300000)
 chrome.browserAction.setBadgeBackgroundColor({color: '#5c5704'})
 
 chrome.browserAction.onClicked.addListener(function(){
-        window.open('http://localhost:3000/')
+        window.open('https://fat-info.herokuapp.com')
     } 
 )
