@@ -1,40 +1,32 @@
 const express = require('express');
 const app = express()
-const puppeteer = require('puppeteer');
-const fs = require('fs'); 
-
+const fs = require('fs')
+const cors = require('cors')
+const axios = require('axios')
 app.use(express.static(__dirname+'/public'));
+app.use(cors())
 
-const obterSelic = async() => {
-  const browser = await puppeteer.launch({ignoreDefaultArgs: ['--no-sandbox']});
-  const page = await browser.newPage();
-  await page.goto('https://br.investing.com/central-banks/central-bank-of-brazil'); // Acessa o site do Investing.com 
-  await page.waitForSelector('.noPad') // Faz o get da taxa 
-  let elemento = await page.$('.noPad') 
-  let valor = await page.evaluate(el => el.textContent, elemento)
-  // console.log(valor.slice(35,40)) // Corta a taxa selic atual 
-  let resultado = valor.slice(34,42).replace(/\s/g, '')
-  await browser.close()
-  return resultado
+/* Minhas rotas */
 
-};
-
-obterSelic().then(total => { // Executa pela primeira vez ao rodar o script
-    fs.writeFile('selic.txt', total, (err) => {if(err) console.log(err) })
+function getSelic(){
+    axios.get('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados?formato=json').then(function (response){
+    var selic = response.data[response.data.length-1].valor
+    fs.writeFile('selic.txt', `${selic}`, function(err){console.log(err)})
+    console.log(selic)
+}).catch(function (error){
+    console.log(error)
 })
+}
 
-setInterval(function(){ // Atualiza o valor da taxa a cada 5 min
-    obterSelic().then(total => {
-        fs.writeFile('selic.txt', total, (err) => {if(err) console.log(err)})
-    })
-}, 300000)
-
-app.get('/selic', (req, res) => {
-    res.sendFile(`${__dirname}/selic.txt`)
-})
+getSelic()
+setInterval(getSelic, 300000)
 
 app.get('/', (req,res) => {
     res.sendFile(`${__dirname}/index.html`)
+})
+
+app.get('/selic', (req, res) => {
+    res.sendFile(`${__dirname}/selic.txt`)
 })
 
 app.listen(process.env.PORT || 3000, () => {
