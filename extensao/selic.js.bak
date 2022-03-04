@@ -18,7 +18,7 @@ getSelic()
 
 setInterval(getSelic, 300000)
 
-chrome.browserAction.setBadgeBackgroundColor({color: 'black'})
+chrome.browserAction.setBadgeBackgroundColor({color: '#5c5704'})
 
 chrome.browserAction.onClicked.addListener(function(){
         window.open('https://fat-info.herokuapp.com')
